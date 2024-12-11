@@ -5,21 +5,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-@app.middleware("http")
-async def log_requests(request, call_next):
-    # Registrar la solicitud
-    body = await request.body()
-    print(f"REQUEST METHOD: {request.method}")
-    print(f"REQUEST URL: {request.url}")
-    print(f"REQUEST HEADERS: {request.headers}")
-    print(f"REQUEST BODY: {body.decode('utf-8')}")  # Convertir el cuerpo a texto legible
-
-    # Continuar procesando la solicitud
-    response = await call_next(request)
-
-    # Registrar la respuesta
-    print(f"RESPONSE STATUS: {response.status_code}")
-    return response
+app.include_router(mood_router, prefix="/mood", tags=["Mood Analysis"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():

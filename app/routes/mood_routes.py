@@ -1,15 +1,15 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
+from app.models.models import MoodRequest
 from ..services.mood_analysis import analyze_sentiment
 
-class MoodRequest(BaseModel):
-    text: str
+
 
 router = APIRouter()
 
+
+# Here we will get the text from the user and return the mood using analyze_sentiment()
 @router.post("/analyze-mood")
 async def analyze_mood(text: MoodRequest):
-    # This endpoint will analyze the mood of the user based on the text provided
     
     # Placeholder for mood analisys 
     mood = analyze_sentiment(text.text) # Here we will use NLP to analyze the user mood
