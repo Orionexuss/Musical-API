@@ -1,8 +1,7 @@
 from fastapi import APIRouter
 from app.models.models import MoodRequest
+from app.services.spotify_service import get_recommended_tracks
 from ..services.mood_analysis import analyze_sentiment
-
-
 
 router = APIRouter()
 
@@ -11,16 +10,19 @@ router = APIRouter()
 @router.post("/analyze-mood")
 async def analyze_mood(text: MoodRequest):
     
-    # Placeholder for mood analisys 
     mood = analyze_sentiment(text.text) # Here we will use NLP to analyze the user mood
-    return {"text": text.text, "mood": mood}
+    return {
+    "data": {"text": text.text, "mood": mood},
+    "message": "Welcome to my Spotify App <a href='/mood/authorize'>Login with Spotify</a>"
+}
+
 
 @router.get("/recommend-playlist")
 async def recommend_playlist(mood: str):
     # This endpoint will generate a playlist based on the user's mood
     
-    # Placeholder for recommendations 
-    playlist = ["song1", "song2", "song3"] #Here we will use the streaming API
+    # Here we will show the recommendations (We will work on this later on)
+    playlist = get_recommended_tracks(mood) 
     return {"mood": mood, "playlist": playlist}
 
     
