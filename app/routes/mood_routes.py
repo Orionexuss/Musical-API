@@ -1,10 +1,9 @@
-from fastapi import APIRouter
-from app.models.models import MoodRequest
+from fastapi import APIRouter, Request, HTTPException,status
+from ..models.models import MoodRequest
 from app.services.spotify_service import get_recommended_tracks
-from ..services.mood_analysis import analyze_sentiment
+from app.services.mood_analysis import analyze_sentiment
 
 router = APIRouter()
-
 
 # Here we will get the text from the user and return the mood using analyze_sentiment()
 @router.post("/analyze-mood")
@@ -18,7 +17,9 @@ async def analyze_mood(text: MoodRequest):
 
 
 @router.get("/recommend-playlist")
-async def recommend_playlist(mood: str):
+async def recommend_playlist(request: Request, mood: str):
+    if 'access_token' not in request.session:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail= 'You are not logged in to Spotify')
     # This endpoint will generate a playlist based on the user's mood
     
     # Here we will show the recommendations (We will work on this later on)

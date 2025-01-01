@@ -1,8 +1,10 @@
 from fastapi import FastAPI
-from app.routes.mood_routes import router as mood_router
-from app.routes.spotify_routes import router as spotify_router
+import os
+from .routes.mood_routes import router as mood_router
+from .routes.spotify_routes import router as spotify_router
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
+from starlette.middleware.sessions import SessionMiddleware
 
 app = FastAPI()
 
@@ -15,6 +17,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
         
+app.add_middleware(SessionMiddleware, os.getenv('SECRET_KEY'))
+
 @app.get('/')
 def index():
     return RedirectResponse('/mood/analyze-mood')
