@@ -49,4 +49,4 @@ async def callback(request: Request):
     token_info = response.json()
     request.session['access_token'] = token_info['access_token']
     
-    return RedirectResponse("/mood/recommend-playlist?mood=happy")
+    return RedirectResponse("/mood/recommend-playlist")
