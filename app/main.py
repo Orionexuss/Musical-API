@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import os
-from .routes.mood_routes import router as mood_router
-from .routes.spotify_routes import router as spotify_router
+from app.routes.mood_routes import router as mood_router
+from app.routes.spotify_routes import router as spotify_router
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from starlette.middleware.sessions import SessionMiddleware
@@ -25,4 +25,4 @@ def index():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=8000)
+    uvicorn.run('app.main:app', host="localhost", port=8000, reload=True)
