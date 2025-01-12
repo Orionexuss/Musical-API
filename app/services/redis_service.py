@@ -8,7 +8,6 @@ class RedisService:
         self.redis.set(key, value)
         
     def get_value(self, key: str):
-        print(f'this is the key: {key}')
         return self.redis.get(key)
         
     def del_value(self, key:str):
